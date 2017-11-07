@@ -7,14 +7,18 @@ $('#submit').on('click', () => {
       .then((users) => {
         var username = $('#username').val(); // Retrieve the value from input with an id of "username"
 
+        if (!username) { // If a username was not entered, reject to bubble out to the catch.
+          return reject('Please enter a username');
+        }
+
         var foundUser = users.find((user) => { // User Array.prototype.find to find a matching user.
           return user.username === username;
         });
 
         if (foundUser) { // If a user was found in the database, reject this Promise to bubble out to the outer-catch
-          reject('User found');
+          return reject('User found');
         } else { // Else resolve the value on the username input field for our 'then' block
-          resolve(username);
+          return resolve(username);
         }
       })
   })
